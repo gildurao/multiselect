@@ -40,11 +40,13 @@ class _SelectRow extends StatelessWidget {
                   onChange(x!);
                   _theState.notify();
                 }),
-            Text(
-              text,
-              style: style,
-              maxLines: maxLines,
-              overflow: TextOverflow.ellipsis,
+            Flexible(
+              child: Text(
+                text,
+                style: style,
+                maxLines: maxLines,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
