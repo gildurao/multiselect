@@ -44,6 +44,7 @@ class _SelectRow extends StatelessWidget {
               text,
               style: style,
               maxLines: maxLines,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
