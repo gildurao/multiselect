@@ -106,6 +106,8 @@ class DropDownMultiSelect extends StatefulWidget {
 
   final int selectMaxLines;
 
+  final String? selectedItemsLabel;
+
   const DropDownMultiSelect({
     Key? key,
     required this.options,
@@ -124,6 +126,7 @@ class DropDownMultiSelect extends StatefulWidget {
     this.readOnly = false,
     required this.selectMaxLines,
     required this.selectStyle,
+    this.selectedItemsLabel,
   }) : super(key: key);
 
   @override
@@ -148,7 +151,9 @@ class _DropDownMultiSelectState extends State<DropDownMultiSelect> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(widget.selectedValues.length > 0
-                        ? widget.selectedValues.reduce((a, b) => a + ' , ' + b)
+                        ? widget.selectedItemsLabel ??
+                            widget.selectedValues
+                                .reduce((a, b) => a + ' , ' + b)
                         : widget.whenEmpty ?? ''),
                   ))),
           Container(
