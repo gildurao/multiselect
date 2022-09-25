@@ -35,11 +35,12 @@ class _SelectRow extends StatelessWidget {
         child: Row(
           children: [
             Checkbox(
-                value: selected,
-                onChanged: (x) {
-                  onChange(x!);
-                  _theState.notify();
-                }),
+              value: selected,
+              onChanged: (x) {
+                onChange(x!);
+                _theState.notify();
+              },
+            ),
             Flexible(
               child: Text(
                 text,
@@ -108,6 +109,8 @@ class DropDownMultiSelect extends StatefulWidget {
 
   final String? selectedItemsLabel;
 
+  final TextStyle? selectedItemsLabelStyle;
+
   const DropDownMultiSelect({
     Key? key,
     required this.options,
@@ -127,6 +130,7 @@ class DropDownMultiSelect extends StatefulWidget {
     required this.selectMaxLines,
     required this.selectStyle,
     this.selectedItemsLabel,
+    this.selectedItemsLabelStyle,
   }) : super(key: key);
 
   @override
@@ -140,22 +144,29 @@ class _DropDownMultiSelectState extends State<DropDownMultiSelect> {
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          _theState.rebuild(() => widget.childBuilder != null
-              ? widget.childBuilder!(widget.selectedValues)
-              : Padding(
-                  padding: widget.decoration != null
-                      ? widget.decoration!.contentPadding != null
-                          ? widget.decoration!.contentPadding!
-                          : EdgeInsets.symmetric(horizontal: 10)
-                      : EdgeInsets.symmetric(horizontal: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Text(widget.selectedValues.length > 0
-                        ? widget.selectedItemsLabel ??
-                            widget.selectedValues
-                                .reduce((a, b) => a + ' , ' + b)
-                        : widget.whenEmpty ?? ''),
-                  ))),
+          _theState.rebuild(
+            () => widget.childBuilder != null
+                ? widget.childBuilder!(widget.selectedValues)
+                : Padding(
+                    padding: widget.decoration != null
+                        ? widget.decoration!.contentPadding != null
+                            ? widget.decoration!.contentPadding!
+                            : EdgeInsets.symmetric(horizontal: 10)
+                        : EdgeInsets.symmetric(horizontal: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Text(
+                        widget.selectedValues.length > 0
+                            ? widget.selectedItemsLabel ??
+                                widget.selectedValues.reduce(
+                                  (a, b) => a + ' , ' + b,
+                                )
+                            : widget.whenEmpty ?? '',
+                        style: widget.selectedItemsLabelStyle,
+                      ),
+                    ),
+                  ),
+          ),
           Container(
             child: Theme(
               data: Theme.of(context).copyWith(),
@@ -167,7 +178,7 @@ class _DropDownMultiSelectState extends State<DropDownMultiSelect> {
                 decoration: widget.decoration != null
                     ? widget.decoration
                     : InputDecoration(
-                        border: OutlineInputBorder(),
+                        //border: OutlineInputBorder(),
                         isDense: true,
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 15,
@@ -182,9 +193,11 @@ class _DropDownMultiSelectState extends State<DropDownMultiSelect> {
                     : null,
                 selectedItemBuilder: (context) {
                   return widget.options
-                      .map((e) => DropdownMenuItem(
-                            child: Container(),
-                          ))
+                      .map(
+                        (e) => DropdownMenuItem(
+                          child: Container(),
+                        ),
+                      )
                       .toList();
                 },
                 items: widget.options
