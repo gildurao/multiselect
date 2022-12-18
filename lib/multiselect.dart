@@ -160,6 +160,7 @@ class _DropDownMultiSelectState extends State<DropDownMultiSelect> {
             child: Theme(
               data: Theme.of(context).copyWith(),
               child: DropdownButtonFormField<String>(
+                menuMaxHeight: 300,
                 hint: widget.hint,
                 style: widget.hintStyle,
                 icon: widget.icon,
